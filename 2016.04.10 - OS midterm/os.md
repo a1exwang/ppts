@@ -47,7 +47,7 @@ files: /js/demo.js,/css/demo.css
 - 能添加一个后端到LLVM框架中能编译, 运行不崩溃, 而是提示出错信息(完成) {:&.rollIn}
   - 继承TargetMachine, Subtarget(提供目标机基本信息), FrameLowering(函数调用帧生成) {:&.rollIn}
     ISeqDAGToDAG(DAG匹配和翻译), RegisterInfo, InstPrinter等十几个类
-- 算数/逻辑指令(完成) {:&.rollIn}
+- 算数/逻辑指令(完成)
   - +-*/ << >> \& \| ~ {:&.rollIn}
   - LLVM IR DAG的匹配(编写td)
   - 寄存器分配(编写td, 实现C++ RegisterInfo类)
@@ -111,6 +111,16 @@ files: /js/demo.js,/css/demo.css
 - 好处
   - 可以让V9Cpu支持更多语言
   - LLVM比较新, 文档多, 代码易读一些
+
+[slide]
+## 阶段目标
+------
+- 函数内部能编译
+- 支持全局变量, 结构体
+- 支持uCore所需的全部c语言子集(对齐, 内联汇编等)
+- 链接器
+- \*反汇编, objdump
+- \*C++支持
 
 [slide]
 
