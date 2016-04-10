@@ -9,11 +9,27 @@ files: /js/demo.js,/css/demo.css
 ## - 朱俸民, 王奥丞
 
 [slide]
-## 需求
+## 需求/目标
 ------
 - 编译器 {:&.rollIn}
 - 汇编器
 - 链接器
+
+[slide]
+## 指令集特点
+------
+- 基于原v9指令集
+- 增加通用寄存器
+- 合并功能类似的指令
+- 访存仅能通过 Load/Store
+- 除了一些类似库函数功能的指令外，属于RISC
+- 可归约到含有几十条指令的完备集
+
+[slide]
+## 指令集介绍
+------
+- [文档](https://github.com/paulzfm/v9-cpu/blob/master/doc/is.md)
+- 除了系统指令外，其余指令原则上不再变更
 
 [slide]
 ## 整体结构
