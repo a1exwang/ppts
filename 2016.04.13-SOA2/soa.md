@@ -9,6 +9,14 @@ files: /js/demo.js,/css/demo.css
 ## - 王奥丞, 黄锐皓, 韦毅龙
 
 [slide]
+# 需求
+------
+- 做一个统一的消息推送接口 {:&.rollIn}
+- 可以从不同的数据源获取消息
+- 可以推送到不同的前端
+- 在一个App登陆可以收到不同来源的消息
+
+[slide]
 ## 整体结构
 ------
 ![Architecture](/assets/main.jpg)  {:&.rollIn}
