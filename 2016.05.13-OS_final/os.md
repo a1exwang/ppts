@@ -1,4 +1,4 @@
-title: Alex-Machine指令集, 虚拟机, 工具连, 和uCore的移植
+title: Alex-Machine指令集, 虚拟机, 工具链, 和uCore的移植
 speaker: 朱俸民, 王奥丞
 url: http://soappt.a1ex.wang
 transition: cards
@@ -13,10 +13,10 @@ files: /js/demo.js,/css/demo.css
 ------
 - 设计一个简单, 但足够实现一个现代操作系统的CPU指令集 {:&.rollIn}
 - 并将uCore移植上去
-- 1. 指令集
-- 2. 模拟器
-- 3. 工具链(compiler, assembler, linker, other tools(objdump)...)
-- 4. 调试器
+- 指令集
+- 模拟器
+- 工具链(compiler, assembler, linker, other tools(objdump)...)
+- 调试器
 
 [slide]
 ## 1. 指令集和模拟器
@@ -60,7 +60,7 @@ files: /js/demo.js,/css/demo.css
     - Debugger shell, 反汇编, 单步调试(汇编, 源码)
     - 查看全局符号和局部变量, 设置PC断点
     - 查看寄存器, 堆栈, 查看内存
-- 将来实现的功能: 查看结构体, 查看函数调用栈,
+- 将来实现的功能: 源码断点, 查看结构体, 查看函数调用栈,
   查看函数调用栈底部函数的局部变量, 修改内存, 寄存器
 
 [slide]
@@ -70,13 +70,12 @@ files: /js/demo.js,/css/demo.css
 - 中断和内存管理没有实现
 
 [slide]
-## 5. 总结
+## 5. 总结, 收获
 ------
-- 收获:
-    - 了解了编译器后端的实现
-    - 在庞大项目上二次开发的经验, 比如如何在几十兆的代码中找没有文档的API用法
-    - 编译器和调试器如何协调工作
-    - LLVM框架的设计, 结构
+- 了解了编译器后端的实现 {:&.rollIn}
+- 在庞大项目上二次开发的经验, 比如如何在几十兆的代码中找没有文档的API用法
+- 编译器和调试器如何协调工作
+- LLVM框架的设计, 结构
 
 [slide]
 
