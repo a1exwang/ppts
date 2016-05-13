@@ -21,6 +21,23 @@ files: /js/demo.js,/css/demo.css
 [slide]
 ## 1. 指令集和模拟器
 ------
+- RISC 指令集
+    - 16个32位通用寄存器
+    - 支持64位浮点操作
+    - 过程调用类似 x86
+    - 访存方式类似 MIPS
+    - 系统功能类似 v9
+- 指令集和处理器的行为已在文档中准确定义
+
+[slide]
+## 1. 指令集和模拟器 (Cont.)
+------
+- 模拟器
+    - 测试编译结果
+    - Javascript
+    - 读取 elf 文件执行
+    - 支持标准输出
+    - 嵌入调试器
 
 [slide]
 ## 2. 工具链
@@ -76,6 +93,21 @@ files: /js/demo.js,/css/demo.css
 - 在庞大项目上二次开发的经验, 比如如何在几十兆的代码中找没有文档的API用法
 - 编译器和调试器如何协调工作
 - LLVM框架的设计, 结构
+
+[slide]
+## 6. Future Work
+------
+- 完善模拟器的系统指令部分
+- 在模拟器上运行 ucore
+- 更充分的编译器测试
+- 指令集的形式语义
+
+[slide]
+## Repositories
+------
+- https://github.com/a1exwang/llvm
+- https://github.com/a1exwang/lld
+- https://github.com/paulzfm/alex-machine
 
 [slide]
 
