@@ -52,20 +52,20 @@ files: /js/demo.js,/css/demo.css
 [slide]
 ## 2.1 工具链(CodeGen)
 - CodeGen
-  - LLVM编译过程添加了几个pass, 主要如下
-  - 1. LLVM IR DAG -> LLVM IR DAG, 展开一些LLVM IR中很强的指令(比如funcall)
-  - 2. LLVM IR DAG -> Alex-Machine DAG
+  - LLVM编译过程添加了几个pass, 主要如下 {:&.rollIn}
+  - LLVM IR DAG -> LLVM IR DAG, 展开一些LLVM IR中很强的指令(比如funcall)
+  - LLVM IR DAG -> Alex-Machine DAG
       用llvm-tblgen语言, 按照一定模式匹配LLVM IR的DAG, 替换成Alex-Machine的DAG
-  - 3. Alex-Machine DAG伪指令展开
-  - 4. 生成符号信息(包括符号类型, 位宽, 属性, 比如PCRel)供linker使用
+  - Alex-Machine DAG伪指令展开
+  - 生成符号信息(包括符号类型, 位宽, 属性, 比如PCRel)供linker使用
 
 [slide]
 ## 2.2 工具链(Assembler/Linker)
-- Assembler
-    - 简单的基于行的LL(1)文法, 编译汇编代码到和CodeGen统一的内部表示,
+- Assembler {:&.rollIn}
+    - 简单的基于行的LL(1)文法, 编译汇编代码到和CodeGen统一的内部表示 {:&.rollIn}
       从而复用CodeGen来生成目标文件
 - Linker
-    - 此时已经知道所有符号的VA, 根据CodeGen生成的符号信息, 回填代码中的地址, 偏移量等
+    - 此时已经知道所有符号的VA, 根据CodeGen生成的符号信息, 回填代码中的地址, 偏移量等 {:&.rollIn}
 
 [slide]
 ## 3. 调试器
@@ -97,7 +97,7 @@ files: /js/demo.js,/css/demo.css
 [slide]
 ## 6. Future Work
 ------
-- 完善模拟器的系统指令部分
+- 完善模拟器的系统指令部分 {:&.rollIn}
 - 在模拟器上运行 ucore
 - 更充分的编译器测试
 - 指令集的形式语义
@@ -108,6 +108,7 @@ files: /js/demo.js,/css/demo.css
 - https://github.com/a1exwang/llvm
 - https://github.com/a1exwang/lld
 - https://github.com/paulzfm/alex-machine
+- https://github.com/a1exwang/alex-cpu-test
 
 [slide]
 
