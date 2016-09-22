@@ -2,123 +2,89 @@ title: 用chroot的在android上跑linux图形应用程序
 speaker: 王奥丞
 url: http://soappt.a1ex.wang
 transition: cards
-files: /js/demo.js,/css/demo.css
+theme: light
+files: /js/demo.js,/assets/main.css
 
 [slide]
-# 用chroot的在android上跑linux图形应用程序
+# OpenTUOS - android上跑linux图形应用程序
 ## - 王奥丞
 
 [slide]
 ## 目标
-------
-- 在android的x86版本上运行linux图形程序 {:&.rollIn}
-- android-studio, opengl应用程序
+------ 
+- 将android变成一个生产力工具, 不只是一个手机操作系统 {:&.rollIn}
+- android-studio, opengl应用程序 
 - Demo
 
 [slide]
-## 实现方法
+## Linux GUI App在桌面Linux上如何运行1
 ------
-- wayland
-
+![X server architecture picture](/assets/x-architecture.png)
 
 [slide]
-## 指令集介绍
+## Linux GUI App在桌面Linux上如何运行2
 ------
-- [文档](https://github.com/paulzfm/v9-cpu/blob/master/doc/is.md)
-- 除了系统指令外，其余指令原则上不再变更
+1. 动态库问题 {:&.fadeIn}
+1. X.org的X Server实现复杂难以复用, 自己实现X11 Protocol?
+1. 直接操作framebuffer, 或者直接访问driver, 移植性差
 
 [slide]
-## 整体结构
+## Wayland Architecture
+- ![Wayland-Cpu](/assets/cpu.png) {:&.fadeIn}
+- 放弃XWindow的架构, 用Wayland的架构
+- 用Android提供API来实现显示和input事件处理
+
+[slide]
+## chroot + archlinux
+- 修改当前进程和子进程的根目录 {:&.fadeIn}
+- 在该环境下安装archlinux
+- arch和android共享内核和/proc, /dev, /sys少数几个目录
+- 解决动态库问题
+- 新的根目录
+  ```
+
+    /             -> Original /data/arch/chroot
+    |-- dev       -> Original /dev
+    |-- proc      -> Original /proc
+    |-- sys       -> Original /sys
+    |-- mnt       -> Original /
+        |-- data  -> Original /data
+    |-- bin
+    |-- etc
+    |-- usr
+    |-- lib
+    ...
+
+  ```
+
+[slide]
+## Weston + image-backend
 ------
-- 使用LLVM框架 {:&.rollIn}
-- 用clang将C/C++编译到LLVM IR
-- 编写LLVM后端, 将LLVM IR翻译成V9Cpu汇编代码
-- 生成目标文件(elf格式)
-- 利用lld框架编写链接器
-- objdump, disasm
+- Weston是wayland协议的一个实现, 支持多种后端fb, drm... {:&.rollIn}
+- 添加了一个自定义compositor, image-backend
+- 用pixman库, 用cpu做composite
+- 将composite好的framebuffer写入文件
+- 读unix socket, 解包protobuf, 发送鼠标键盘时间给wayland client
 
 [slide]
-## LLVM后端(LLVM IR翻译)1
+## App
+-----
+- 定时读取/tmp/image.bin内容, 显示到SurfaceView {:&.rollIn}
+- 重写MainActivity的onTouch方法发送, 把消息用protobuf编码发送到unix socket
+
+[slide]
+-----
+## GPU support
+- ![Wayland-GPU](/assets/gpu.png) {:&.rollIn}
+- 多次拷贝frame buffer, 可以优化
+
+[slide]
+## In the future
 ------
-- 能添加一个后端到LLVM框架中能编译, 运行不崩溃, 而是提示出错信息(完成) {:&.rollIn}
-  - 继承TargetMachine, Subtarget(提供目标机基本信息), FrameLowering(函数调用帧生成) {:&.rollIn}
-    ISeqDAGToDAG(DAG匹配和翻译), RegisterInfo, InstPrinter等十几个类
-- 算数/逻辑指令(完成)
-  - +-*/ << >> \& \| ~ {:&.rollIn}
-  - LLVM IR DAG的匹配(编写td)
-  - 寄存器分配(编写td, 实现C++ RegisterInfo类)
+- 将一个Linux GUI应用程序对应成为一个Android App {:&.rollIn}
+- 修改Android的SurfaceView, 让weston直接写到SurfaceView的buffer中, 减少一次内存拷贝
 
 [slide]
-## LLVM后端(LLVM IR翻译)2
-------
-- 目标文件生成 {:&.rollIn}
-  - ELFObjectWriter {:&.rollIn}
-- 全局变量
-- 转移指令(完成)
-  - 跳转指令, 条件转移指令 {:&.rollIn}
-
-[slide]
-## LLVM后端(LLVM IR翻译)3
-------
-- 函数调用 {:&.rollIn}
-  - LowerFormal(), LowerReturn(), 参数和返回值信息 {:&.rollIn}
-  - LowerCall(), 生成函数调用
-- 结构体/数组支持
-- 汇编器
-  - 继承AsmParser类, 覆盖MatchAndEmitInstruction函数
-
-[slide]
-## 编译结果
-```
-  # BB#0:
-  	addiu	$sp, $sp, -8
-  $tmp0:
-  	.cfi_def_cfa_offset 8
-  	st	$r0, 4($sp)             # 4-byte Folded Spill
-  $tmp1:
-  	.cfi_offset 0, -4
-  	addiu	$r0, $zero, 1
-  	ld	$r0, 4($sp)             # 4-byte Folded Reload
-  	addiu	$sp, $sp, 8
-  	ret	$r0
-  	.set	macro
-  	.set	reorder
-  	.end	func
-  $func_end0:
-  	.size	func, ($func_end0)-func
-  	.cfi_endproc
-```
-
-[slide]
-## 链接器
-------
-- 可以用llvm-ld将LLVM IR链接成一个大文件, {:&.rollIn}
-  最后编译成V9Cpu的目标文件(elf),
-  最后修改目标文件中的地址,
-  添加静态数据段
-- 也可以用lld写一个全功能的链接器
-
-[slide]
-## 总结
-------
-- 工作量主要在LLVM IR翻译这一部分 {:&.rollIn}
-- Sparc, 3种CPU, ~14K行, 500KiB
-- ![file structure](/assets/cpp.png)
-- 好处
-  - 可以让V9Cpu支持更多语言
-  - LLVM比较新, 文档多, 代码易读一些
-
-[slide]
-## 阶段目标
-------
-- 函数内部能编译 {:&.rollIn}
-- 支持全局变量, 结构体
-- 支持uCore所需的全部c语言子集(对齐, 内联汇编等)
-- 链接器
-- 调试符号生成, 调试器
-- \*反汇编, objdump
-- \*C++支持
-
-[slide]
-
-# That's all, thank you!
+## Q&A
+Thanks <br/> 
+My github: https://github.com/a1exwang
