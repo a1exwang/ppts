@@ -30,8 +30,8 @@ files: /js/demo.js,/assets/main.css
 
 [slide]
 ## Wayland Architecture
-- ![Wayland-Cpu](/assets/cpu.png) {:&.fadeIn}
-- 放弃XWindow的架构, 用Wayland的架构
+- 放弃XWindow的架构, 用Wayland的架构 {:&.fadeIn}
+- ![Wayland-Cpu](/assets/cpu.png) 
 - 用Android提供API来实现显示和input事件处理
 
 [slide]
@@ -70,7 +70,7 @@ files: /js/demo.js,/assets/main.css
 ## App
 -----
 - 定时读取/tmp/image.bin内容, 显示到SurfaceView {:&.rollIn}
-- 重写MainActivity的onTouch方法发送, 把消息用protobuf编码发送到unix socket
+- 重写MainActivity的dispatchKeyEvent, dispatchTouchEvent方法, 把消息用protobuf编码发送到unix socket
 
 [slide]
 -----
