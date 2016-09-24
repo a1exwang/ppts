@@ -6,8 +6,11 @@ theme: light
 files: /js/demo.js,/assets/main.css
 
 [slide]
-# OpenTUOS - android上跑linux图形应用程序
-## - 王奥丞
+# 王奥丞  {:&.rollIn}
+# 计算机系
+
+[slide]
+# Linux GUI App on Android
 
 [slide]
 ## 目标
@@ -38,9 +41,9 @@ files: /js/demo.js,/assets/main.css
 ## chroot + archlinux
 - 修改当前进程和子进程的根目录 {:&.fadeIn}
 - 在该环境下安装archlinux
-- arch和android共享内核和/proc, /dev, /sys少数几个目录
+- arch和android共享kernel和/proc, /dev, /sys少数几个目录
 - 解决动态库问题
-- 新的根目录
+- 新的根目录结构
   ```
 
     /             -> Original /data/arch/chroot
@@ -61,10 +64,7 @@ files: /js/demo.js,/assets/main.css
 ## Weston + image-backend
 ------
 - Weston是wayland协议的一个实现, 支持多种后端fb, drm... {:&.rollIn}
-- 添加了一个自定义compositor, image-backend
-- 用pixman库, 用cpu做composite
-- 将composite好的framebuffer写入文件
-- 读unix socket, 解包protobuf, 发送鼠标键盘时间给wayland client
+- ![Image-backend](/assets/image-backend.png)
 
 [slide]
 ## App
